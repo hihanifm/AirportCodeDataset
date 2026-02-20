@@ -68,6 +68,15 @@ def get_codes_to_process(rows: list[dict], results: dict[str, str]) -> list[str]
     return codes
 
 
+def _make_column_and_key(provider: str, prompt_name: str) -> tuple[str, str]:
+    """Derive CSV column name and checkpoint key from provider + prompt."""
+    base = PROVIDER_DEFAULTS[provider]["column"]
+    if prompt_name == "generic":
+        return base, provider
+    suffix = prompt_name.replace("-", "_")
+    return f"{base}_{suffix}", f"{provider}_{suffix}"
+
+
 def run(
     provider: str,
     model: str,
@@ -75,11 +84,12 @@ def run(
     input_path: Path,
     output_path: Path,
     prompt_template: str | None = None,
+    prompt_name: str = "generic",
 ) -> None:
     """Run enrichment pipeline for a given provider."""
-    column = PROVIDER_DEFAULTS[provider]["column"]
+    column, checkpoint_key = _make_column_and_key(provider, prompt_name)
     client = get_client(provider)
-    checkpoint = load_checkpoint(provider)
+    checkpoint = load_checkpoint(checkpoint_key)
     results: dict[str, str] = checkpoint.get("results", {})
 
     rows, base_fieldnames = load_rows(input_path)
@@ -105,7 +115,7 @@ def run(
 
         checkpoint["results"] = results
         checkpoint["model"] = effective_model
-        save_checkpoint(provider, checkpoint)
+        save_checkpoint(checkpoint_key, checkpoint)
 
         # Write partial output after each batch
         _write_output(rows, base_fieldnames, results, column, output_path)
@@ -122,27 +132,31 @@ def _write_output(
     column: str,
     output_path: Path,
 ) -> None:
-    """Write enriched CSV, preserving existing columns from other providers."""
+    """Write enriched CSV, preserving existing columns from other runs."""
     existing = _load_existing_output(output_path)
 
-    # Collect all provider columns from existing data
-    all_provider_cols: list[str] = []
+    # Discover all enrichment columns: from config + from existing CSV
+    known_cols: set[str] = set()
     for conf in PROVIDER_DEFAULTS.values():
-        col = conf["column"]
-        if col not in all_provider_cols:
-            all_provider_cols.append(col)
+        known_cols.add(conf["column"])
+    if existing:
+        sample = next(iter(existing.values()), {})
+        for key in sample:
+            if key.startswith("meanings_"):
+                known_cols.add(key)
+    known_cols.add(column)
 
     fieldnames = list(base_fieldnames)
-    for col in all_provider_cols:
+    for col in sorted(known_cols):
         if col not in fieldnames:
             fieldnames.append(col)
 
     for row in rows:
         code = row.get("code", "").strip()
         code_upper = code.upper()
-        # Preserve other provider columns from existing output
+        # Preserve other columns from existing output
         if code in existing:
-            for col in all_provider_cols:
+            for col in known_cols:
                 if col != column and col in existing[code]:
                     row[col] = existing[code][col]
         # Set current provider column
@@ -186,6 +200,7 @@ def main() -> None:
         input_path=input_path,
         output_path=Path(args.output),
         prompt_template=prompt_template,
+        prompt_name=args.prompt,
     )
 
 
