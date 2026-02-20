@@ -59,9 +59,10 @@ def _parse_response_text(text: str) -> dict:
     return json.loads(text)
 
 
-def _call_openai(client, codes: list[str], model: str, fallbacks: list[str]) -> tuple[dict, str]:
+def _call_openai(client, codes: list[str], model: str, fallbacks: list[str], prompt_template: str | None = None) -> tuple[dict, str]:
     models_to_try = [model] + [m for m in fallbacks if m != model]
-    prompt = PROMPT_TEMPLATE.format(codes=", ".join(codes))
+    template = prompt_template or PROMPT_TEMPLATE
+    prompt = template.format(codes=", ".join(codes))
     last_error: Exception | None = None
 
     for current_model in models_to_try:
@@ -95,9 +96,10 @@ def _call_openai(client, codes: list[str], model: str, fallbacks: list[str]) -> 
     raise last_error or RuntimeError("All OpenAI models failed")
 
 
-def _call_gemini(client, codes: list[str], model: str, fallbacks: list[str]) -> tuple[dict, str]:
+def _call_gemini(client, codes: list[str], model: str, fallbacks: list[str], prompt_template: str | None = None) -> tuple[dict, str]:
     models_to_try = [model] + [m for m in fallbacks if m != model]
-    prompt = PROMPT_TEMPLATE.format(codes=", ".join(codes))
+    template = prompt_template or PROMPT_TEMPLATE
+    prompt = template.format(codes=", ".join(codes))
     last_error: Exception | None = None
 
     for current_model in models_to_try:
@@ -136,15 +138,16 @@ def call_llm(
     model: str,
     provider: str,
     fallbacks: list[str] | None = None,
+    prompt_template: str | None = None,
 ) -> tuple[dict, str]:
     """
     Call LLM API with retry and fallback. Returns (result, model_used).
     """
     if provider == "openai":
         fb = fallbacks if fallbacks is not None else FALLBACK_MODELS
-        return _call_openai(client, codes, model, fb)
+        return _call_openai(client, codes, model, fb, prompt_template)
     elif provider == "gemini":
         fb = fallbacks if fallbacks is not None else GEMINI_FALLBACK_MODELS
-        return _call_gemini(client, codes, model, fb)
+        return _call_gemini(client, codes, model, fb, prompt_template)
     else:
         raise ValueError(f"Unknown provider: {provider}")

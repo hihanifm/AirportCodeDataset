@@ -15,7 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from checkpoint import load_checkpoint, save_checkpoint
-from config import BATCH_SIZE, INPUT_CSV, OUTPUT_CSV, PROVIDER_DEFAULTS
+from config import BATCH_SIZE, INPUT_CSV, OUTPUT_CSV, PROMPTS, PROVIDER_DEFAULTS
 from llm import call_llm, get_client
 
 load_dotenv()
@@ -74,6 +74,7 @@ def run(
     batch_size: int,
     input_path: Path,
     output_path: Path,
+    prompt_template: str | None = None,
 ) -> None:
     """Run enrichment pipeline for a given provider."""
     column = PROVIDER_DEFAULTS[provider]["column"]
@@ -93,7 +94,7 @@ def run(
         if not sys.stderr.isatty():
             print(f"[{provider}] Processing batch {batch_num}/{total_batches} ({len(batch)} codes)...", file=sys.stderr)
 
-        batch_results, effective_model = call_llm(client, batch, effective_model, provider)
+        batch_results, effective_model = call_llm(client, batch, effective_model, provider, prompt_template=prompt_template)
 
         for code in batch:
             key = code.upper()
@@ -163,6 +164,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Enrich airport codes with equivalent meanings via LLM")
     parser.add_argument("--provider", default="openai", choices=list(PROVIDER_DEFAULTS.keys()), help="LLM provider (default: openai)")
     parser.add_argument("--model", default=None, help="Model name (default depends on provider)")
+    parser.add_argument("--prompt", default="generic", choices=list(PROMPTS.keys()), help="Prompt variant (default: generic)")
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE, help="Codes per API call")
     parser.add_argument("--input", default=INPUT_CSV, help="Input CSV path")
     parser.add_argument("--output", default=OUTPUT_CSV, help="Output CSV path")
@@ -170,6 +172,7 @@ def main() -> None:
 
     provider = args.provider
     model = args.model or os.getenv("LLM_MODEL") or PROVIDER_DEFAULTS[provider]["model"]
+    prompt_template = PROMPTS[args.prompt]
 
     input_path = Path(args.input)
     if not input_path.exists():
@@ -182,6 +185,7 @@ def main() -> None:
         batch_size=args.batch_size,
         input_path=input_path,
         output_path=Path(args.output),
+        prompt_template=prompt_template,
     )
 
 
