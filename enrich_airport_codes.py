@@ -29,6 +29,22 @@ def load_rows(input_path: Path) -> tuple[list[dict], list[str]]:
     return rows, fieldnames
 
 
+def _to_comma_separated_values(data: dict | None) -> str:
+    """Extract comma-separated values from data, stripping domain prefixes."""
+    if not data or not isinstance(data, dict):
+        return ""
+    values = []
+    if data.get("word"):
+        values.append(str(data["word"]))
+    for abbr in data.get("abbreviations") or []:
+        s = abbr if isinstance(abbr, str) else str(abbr)
+        if ": " in s:
+            s = s.split(": ", 1)[1]  # Strip "domain: " prefix
+        if s and s not in values:
+            values.append(s)
+    return ", ".join(values)
+
+
 def get_codes_to_process(rows: list[dict], results: dict[str, str]) -> list[str]:
     """Return unique codes not yet in results (preserving first-seen order)."""
     seen: set[str] = set()
@@ -62,28 +78,44 @@ def run(
     for b in range(0, len(codes_to_process), batch_size):
         batch = codes_to_process[b : b + batch_size]
         batch_num = b // batch_size + 1
-        print(f"Processing batch {batch_num}/{total_batches} ({len(batch)} codes)...", file=sys.stderr)
+        if not sys.stderr.isatty():
+            print(f"Processing batch {batch_num}/{total_batches} ({len(batch)} codes)...", file=sys.stderr)
 
         batch_results, effective_model = call_openai(client, batch, effective_model)
+
+        # Print each code result on its own line
+        for code in batch:
+            key = code.upper()
+            data = batch_results.get(code) or batch_results.get(key)
+            values = _to_comma_separated_values(data)
+            print(f"  {code} → {values or '—'}", file=sys.stderr)
 
         for code in batch:
             key = code.upper()
             data = batch_results.get(code) or batch_results.get(key)
-            results[key] = json.dumps(data) if isinstance(data, dict) else str(data) if data else ""
+            results[key] = _to_comma_separated_values(data) if isinstance(data, dict) else (str(data) if data else "")
 
         checkpoint["results"] = results
         checkpoint["model"] = effective_model
         save_checkpoint(checkpoint)
 
-    for row in rows:
-        code = row.get("code", "").strip().upper()
-        row["meanings"] = results.get(code, "")
+        # Write partial output after each batch so progress is visible
+        for row in rows:
+            raw = results.get(row.get("code", "").strip().upper(), "")
+            # Convert legacy JSON in checkpoint to comma-separated
+            if raw.startswith("{"):
+                try:
+                    raw = _to_comma_separated_values(json.loads(raw))
+                except json.JSONDecodeError:
+                    pass
+            row["meanings"] = raw
+        with open(output_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            writer.writeheader()
+            writer.writerows(rows)
 
-    with open(output_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(rows)
-
+    if sys.stderr.isatty():
+        print(file=sys.stderr)  # Newline after overwritten progress line
     print(f"Done. Wrote {output_path} with {len(rows)} rows.", file=sys.stderr)
 
 

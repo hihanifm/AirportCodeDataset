@@ -7,17 +7,22 @@ CHECKPOINT_FILE = "enrichment_checkpoint.json"
 INPUT_CSV = "airport-code-dataset.csv"
 OUTPUT_CSV = "airport-code-dataset-enriched.csv"
 
-PROMPT_TEMPLATE = """For each 3-letter airport code in this list, find any equivalent meanings outside of aviation:
-- English words (e.g., BYE = "bye", ANT = "ant")
-- Common abbreviations in any domain
-- Tech/industry acronyms (e.g., API, CPU, MEM = memory)
+PROMPT_TEMPLATE = """For each 3-letter code in this list, identify ONLY well-established, factual meanings outside of aviation. Do NOT invent or guess meanings. Only include meanings that are widely recognized and verifiable.
+
+Categories:
+- English dictionary words (e.g., BYE = "bye", ANT = "ant", MEN = "men")
+- Officially recognized abbreviations and acronyms (e.g., API = Application Programming Interface, CPU = Central Processing Unit)
 
 Codes: {codes}
 
 Return a JSON object mapping each code to an object with:
-- "word": English word if the code spells one, else null
-- "abbreviations": list of strings like "domain: meaning" (e.g., "tech: Application Programming Interface")
-- "notes": brief summary of notable non-airport meanings, or null if none
+- "word": English dictionary word if the code exactly spells one (case-insensitive), else null
+- "abbreviations": list of strings like "domain: meaning" — only include widely known, established abbreviations
+- "notes": null (do not add notes or commentary)
 
-Only include codes that have at least one non-airport meaning. For codes with no other meanings, omit them from the response.
+Strict rules:
+- Do NOT make up or speculate about meanings
+- Do NOT include obscure or niche abbreviations
+- Only include codes that have at least one real, verifiable meaning
+- Omit codes with no well-known non-airport meaning
 Return valid JSON only, no markdown or explanation."""
