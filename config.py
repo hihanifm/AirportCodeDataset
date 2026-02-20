@@ -1,7 +1,19 @@
 """Configuration constants for airport code enrichment."""
 
+# OpenAI
 DEFAULT_MODEL = "gpt-5.2"
 FALLBACK_MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-4.1"]
+
+# Gemini
+DEFAULT_GEMINI_MODEL = "gemini-2.5-pro"
+GEMINI_FALLBACK_MODELS = ["gemini-2.0-flash", "gemini-1.5-pro"]
+
+# Provider defaults: provider -> (default_model, column_name)
+PROVIDER_DEFAULTS = {
+    "openai": {"model": DEFAULT_MODEL, "column": "meanings_openai"},
+    "gemini": {"model": DEFAULT_GEMINI_MODEL, "column": "meanings_gemini"},
+}
+
 BATCH_SIZE = 30
 CHECKPOINT_FILE = "enrichment_checkpoint.json"
 INPUT_CSV = "airport-code-dataset.csv"

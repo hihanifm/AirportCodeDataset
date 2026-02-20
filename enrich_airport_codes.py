@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Enrich airport codes with equivalent meanings (words, abbreviations, acronyms)
-using OpenAI API. Supports batching, checkpoint resume, and configurable model.
+using LLM providers (OpenAI, Gemini). Supports batching, checkpoint resume,
+configurable model, and per-provider columns in the output CSV.
 """
 
 import argparse
@@ -14,23 +15,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from checkpoint import load_checkpoint, save_checkpoint
-from config import BATCH_SIZE, DEFAULT_MODEL, INPUT_CSV, OUTPUT_CSV
-from llm import call_openai, get_client
+from config import BATCH_SIZE, INPUT_CSV, OUTPUT_CSV, PROVIDER_DEFAULTS
+from llm import call_llm, get_client
 
 load_dotenv()
 
 
-def load_rows(input_path: Path) -> tuple[list[dict], list[str]]:
-    """Load CSV rows and fieldnames (with meanings column)."""
-    with open(input_path, encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        fieldnames = list(reader.fieldnames or []) + ["meanings"]
-        rows = list(reader)
-    return rows, fieldnames
-
-
-def _to_comma_separated_values(data: dict | None) -> str:
-    """Extract comma-separated values from data, stripping domain prefixes."""
+def _to_semicolon_separated(data: dict | None) -> str:
+    """Extract semicolon-separated values from LLM response, stripping domain prefixes."""
     if not data or not isinstance(data, dict):
         return ""
     values = []
@@ -39,10 +31,28 @@ def _to_comma_separated_values(data: dict | None) -> str:
     for abbr in data.get("abbreviations") or []:
         s = abbr if isinstance(abbr, str) else str(abbr)
         if ": " in s:
-            s = s.split(": ", 1)[1]  # Strip "domain: " prefix
+            s = s.split(": ", 1)[1]
         if s and s not in values:
             values.append(s)
-    return ", ".join(values)
+    return "; ".join(values)
+
+
+def _load_existing_output(output_path: Path) -> dict[str, dict]:
+    """Load existing enriched CSV rows keyed by code (for merging columns)."""
+    if not output_path.exists():
+        return {}
+    with open(output_path, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return {row.get("code", "").strip(): dict(row) for row in reader}
+
+
+def load_rows(input_path: Path) -> tuple[list[dict], list[str]]:
+    """Load CSV rows and base fieldnames."""
+    with open(input_path, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        fieldnames = list(reader.fieldnames or [])
+        rows = list(reader)
+    return rows, fieldnames
 
 
 def get_codes_to_process(rows: list[dict], results: dict[str, str]) -> list[str]:
@@ -59,17 +69,19 @@ def get_codes_to_process(rows: list[dict], results: dict[str, str]) -> list[str]
 
 
 def run(
+    provider: str,
     model: str,
     batch_size: int,
     input_path: Path,
     output_path: Path,
 ) -> None:
-    """Run enrichment pipeline."""
-    client = get_client()
-    checkpoint = load_checkpoint()
+    """Run enrichment pipeline for a given provider."""
+    column = PROVIDER_DEFAULTS[provider]["column"]
+    client = get_client(provider)
+    checkpoint = load_checkpoint(provider)
     results: dict[str, str] = checkpoint.get("results", {})
 
-    rows, fieldnames = load_rows(input_path)
+    rows, base_fieldnames = load_rows(input_path)
     codes_to_process = get_codes_to_process(rows, results)
 
     total_batches = (len(codes_to_process) + batch_size - 1) // batch_size
@@ -79,53 +91,85 @@ def run(
         batch = codes_to_process[b : b + batch_size]
         batch_num = b // batch_size + 1
         if not sys.stderr.isatty():
-            print(f"Processing batch {batch_num}/{total_batches} ({len(batch)} codes)...", file=sys.stderr)
+            print(f"[{provider}] Processing batch {batch_num}/{total_batches} ({len(batch)} codes)...", file=sys.stderr)
 
-        batch_results, effective_model = call_openai(client, batch, effective_model)
-
-        # Print each code result on its own line
-        for code in batch:
-            key = code.upper()
-            data = batch_results.get(code) or batch_results.get(key)
-            values = _to_comma_separated_values(data)
-            print(f"  {code} → {values or '—'}", file=sys.stderr)
+        batch_results, effective_model = call_llm(client, batch, effective_model, provider)
 
         for code in batch:
             key = code.upper()
             data = batch_results.get(code) or batch_results.get(key)
-            results[key] = _to_comma_separated_values(data) if isinstance(data, dict) else (str(data) if data else "")
+            value = _to_semicolon_separated(data) if isinstance(data, dict) else (str(data) if data else "")
+            results[key] = value
+            print(f"  {code} → {value or '—'}", file=sys.stderr)
 
         checkpoint["results"] = results
         checkpoint["model"] = effective_model
-        save_checkpoint(checkpoint)
+        save_checkpoint(provider, checkpoint)
 
-        # Write partial output after each batch so progress is visible
-        for row in rows:
-            raw = results.get(row.get("code", "").strip().upper(), "")
-            # Convert legacy JSON in checkpoint to comma-separated
-            if raw.startswith("{"):
-                try:
-                    raw = _to_comma_separated_values(json.loads(raw))
-                except json.JSONDecodeError:
-                    pass
-            row["meanings"] = raw
-        with open(output_path, "w", encoding="utf-8", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-            writer.writeheader()
-            writer.writerows(rows)
+        # Write partial output after each batch
+        _write_output(rows, base_fieldnames, results, column, output_path)
 
     if sys.stderr.isatty():
-        print(file=sys.stderr)  # Newline after overwritten progress line
-    print(f"Done. Wrote {output_path} with {len(rows)} rows.", file=sys.stderr)
+        print(file=sys.stderr)
+    print(f"[{provider}] Done. Wrote {output_path} with {len(rows)} rows.", file=sys.stderr)
+
+
+def _write_output(
+    rows: list[dict],
+    base_fieldnames: list[str],
+    results: dict[str, str],
+    column: str,
+    output_path: Path,
+) -> None:
+    """Write enriched CSV, preserving existing columns from other providers."""
+    existing = _load_existing_output(output_path)
+
+    # Collect all provider columns from existing data
+    all_provider_cols: list[str] = []
+    for conf in PROVIDER_DEFAULTS.values():
+        col = conf["column"]
+        if col not in all_provider_cols:
+            all_provider_cols.append(col)
+
+    fieldnames = list(base_fieldnames)
+    for col in all_provider_cols:
+        if col not in fieldnames:
+            fieldnames.append(col)
+
+    for row in rows:
+        code = row.get("code", "").strip()
+        code_upper = code.upper()
+        # Preserve other provider columns from existing output
+        if code in existing:
+            for col in all_provider_cols:
+                if col != column and col in existing[code]:
+                    row[col] = existing[code][col]
+        # Set current provider column
+        raw = results.get(code_upper, "")
+        if raw.startswith("{"):
+            try:
+                raw = _to_semicolon_separated(json.loads(raw))
+            except json.JSONDecodeError:
+                pass
+        row[column] = raw
+
+    with open(output_path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Enrich airport codes with equivalent meanings via LLM")
-    parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", DEFAULT_MODEL), help="OpenAI model")
+    parser.add_argument("--provider", default="openai", choices=list(PROVIDER_DEFAULTS.keys()), help="LLM provider (default: openai)")
+    parser.add_argument("--model", default=None, help="Model name (default depends on provider)")
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE, help="Codes per API call")
     parser.add_argument("--input", default=INPUT_CSV, help="Input CSV path")
     parser.add_argument("--output", default=OUTPUT_CSV, help="Output CSV path")
     args = parser.parse_args()
+
+    provider = args.provider
+    model = args.model or os.getenv("LLM_MODEL") or PROVIDER_DEFAULTS[provider]["model"]
 
     input_path = Path(args.input)
     if not input_path.exists():
@@ -133,7 +177,8 @@ def main() -> None:
         sys.exit(1)
 
     run(
-        model=args.model,
+        provider=provider,
+        model=model,
         batch_size=args.batch_size,
         input_path=input_path,
         output_path=Path(args.output),
