@@ -33,7 +33,7 @@
 </head>
 <body>
 <h1>Meanings Comparison Report</h1>
-<p class="subtitle">9,766 airport codes &middot; 3 meaning columns</p>
+<p class="subtitle">9,766 airport codes &middot; 4 meaning columns</p>
 
 <h2>Per-Column Summary</h2>
 <div class='cards'>
@@ -44,99 +44,122 @@
   <div class="detail">avg 1.3 &middot; min 1 &middot; max 4 per code</div>
 </div>
 <div class="card" style="background:#10b981">
+  <div class="label">Gemini False Positive</div>
+  <div class="big">95</div>
+  <div class="detail">1.0% of codes &middot; 114 total meanings</div>
+  <div class="detail">avg 1.2 &middot; min 1 &middot; max 3 per code</div>
+</div>
+<div class="card" style="background:#f59e0b">
   <div class="label">Openai</div>
   <div class="big">2,907</div>
   <div class="detail">29.8% of codes &middot; 3,971 total meanings</div>
   <div class="detail">avg 1.4 &middot; min 1 &middot; max 37 per code</div>
 </div>
-<div class="card" style="background:#f59e0b">
+<div class="card" style="background:#ef4444">
   <div class="label">Openai False Positive</div>
-  <div class="big">806</div>
-  <div class="detail">8.3% of codes &middot; 1,207 total meanings</div>
-  <div class="detail">avg 1.5 &middot; min 1 &middot; max 6 per code</div>
+  <div class="big">2,849</div>
+  <div class="detail">29.2% of codes &middot; 4,076 total meanings</div>
+  <div class="detail">avg 1.4 &middot; min 1 &middot; max 7 per code</div>
 </div>
 </div>
 <h2>Overall Overlap</h2>
 <div class='overview-grid'>
 <div class="overview-box">
-  <div class="big">5,152</div>
-  <div class="label">In Any Column (52.8%)</div>
+  <div class="big">5,399</div>
+  <div class="label">In Any Column (55.3%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">510</div>
-  <div class="label">In All Columns (5.2%)</div>
+  <div class="big">39</div>
+  <div class="label">In All Columns (0.4%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">4,614</div>
-  <div class="label">No Meanings (47.2%)</div>
+  <div class="big">4,367</div>
+  <div class="label">No Meanings (44.7%)</div>
 </div>
 </div>
 <h2>Pairwise Overlap</h2>
 <table><tr><th>Column A</th><th>Column B</th><th class='num'>Both</th><th class='num'>Only A</th><th class='num'>Only B</th><th class='num'>Jaccard</th></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>86</td><td class='num'>4,461</td><td class='num'>9</td><td class='num'>0.019</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>2,161</td><td class='num'>521</td><td class='num'>0.471</td></tr>
-<tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>635</td><td class='num'>3,912</td><td class='num'>171</td><td class='num'>0.135</td></tr>
-<tr><td>Openai</td><td>Openai False Positive</td><td class='num'>597</td><td class='num'>2,310</td><td class='num'>209</td><td class='num'>0.192</td></tr>
+<tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>2,332</td><td class='num'>634</td><td class='num'>0.428</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>63</td><td class='num'>32</td><td class='num'>2,844</td><td class='num'>0.021</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>50</td><td class='num'>45</td><td class='num'>2,799</td><td class='num'>0.017</td></tr>
+<tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>774</td><td class='num'>716</td><td class='num'>0.589</td></tr>
 </table>
 <h2>Agreement Analysis</h2><p>For codes present in both columns, how often they share at least one normalized meaning token.</p><table><tr><th>Column A</th><th>Column B</th><th class='num'>Shared Codes</th><th class='num'>Agree</th><th class='num'>Rate</th></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>86</td><td class='num'>77</td><td class='num'>89.5%</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>1,630</td><td class='num'>68.3%</td></tr>
-<tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>635</td><td class='num'>359</td><td class='num'>56.5%</td></tr>
-<tr><td>Openai</td><td>Openai False Positive</td><td class='num'>597</td><td class='num'>375</td><td class='num'>62.8%</td></tr>
+<tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>1,350</td><td class='num'>60.9%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>63</td><td class='num'>46</td><td class='num'>73.0%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>50</td><td class='num'>37</td><td class='num'>74.0%</td></tr>
+<tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>1,352</td><td class='num'>63.4%</td></tr>
 </table>
 <h2>Top 10 Codes by Distinct Meanings</h2>
 <table><tr><th>Code</th><th class='num'>Distinct</th>
 <th>Gemini</th>
+<th>Gemini False Positive</th>
 <th>Openai</th>
 <th>Openai False Positive</th>
 </tr>
-<tr><td><strong>MCC</strong></td><td class='num'>39</td>
+<tr><td><strong>MCC</strong></td><td class='num'>40</td>
 <td><span class='tag'>Marylebone Cricket Club</span><span class='tag'>Motor Control Center</span></td>
-<td><span class='tag'>Microsoft Certified: Cybersecurity Architect Expert</span><span class='tag'>Microsoft Certified: Azure AI Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Data Scientist Associate</span><span class='tag'>Microsoft Certified: Azure Database Administrator Associate</span><span class='tag'>Microsoft Certified: Azure Developer Associate</span><span class='tag'>Microsoft Certified: Azure Enterprise Data Analyst Associate</span><span class='tag'>Microsoft Certified: Azure Fundamentals</span><span class='tag'>Microsoft Certified: Azure Network Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Security Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Solutions Architect Expert</span><span class='tag'>Microsoft Certified: Azure Support Engineer for Connectivity Specialty</span><span class='tag'>Microsoft Certified: Azure Virtual Desktop Specialty</span><span class='tag'>Microsoft Certified: Business Applications Specialist</span><span class='tag'>Microsoft Certified: Data Analyst Associate</span><span class='tag'>Microsoft Certified: Data Engineer Associate</span><span class='tag'>Microsoft Certified: DevOps Engineer Expert</span><span class='tag'>Microsoft Certified: Dynamics 365 Customer Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Field Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Finance Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Supply Chain Management Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Solution Architect Expert</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Technical Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Information Protection Administrator Associate</span><span class='tag'>Microsoft Certified: Power BI Data Analyst Associate</span><span class='tag'>Microsoft Certified: Power Platform App Maker Associate</span><span class='tag'>Microsoft Certified: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Power Platform Solution Architect Expert</span><span class='tag'>Microsoft Certified: Security Operations Analyst Associate</span><span class='tag'>Microsoft Certified: Windows Server Hybrid Administrator Associate</span><span class='tag'>multicenter clinical trial</span><span class='tag'>mucocutaneous candidiasis</span><span class='tag'>Marine Corps Combat Service Support Schools (MCCSSS) (often shortened to MCC in context)</span><span class='tag'>mobile country code</span></td>
 <td>&mdash;</td>
+<td><span class='tag'>Microsoft Certified: Cybersecurity Architect Expert</span><span class='tag'>Microsoft Certified: Azure AI Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Data Scientist Associate</span><span class='tag'>Microsoft Certified: Azure Database Administrator Associate</span><span class='tag'>Microsoft Certified: Azure Developer Associate</span><span class='tag'>Microsoft Certified: Azure Enterprise Data Analyst Associate</span><span class='tag'>Microsoft Certified: Azure Fundamentals</span><span class='tag'>Microsoft Certified: Azure Network Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Security Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Solutions Architect Expert</span><span class='tag'>Microsoft Certified: Azure Support Engineer for Connectivity Specialty</span><span class='tag'>Microsoft Certified: Azure Virtual Desktop Specialty</span><span class='tag'>Microsoft Certified: Business Applications Specialist</span><span class='tag'>Microsoft Certified: Data Analyst Associate</span><span class='tag'>Microsoft Certified: Data Engineer Associate</span><span class='tag'>Microsoft Certified: DevOps Engineer Expert</span><span class='tag'>Microsoft Certified: Dynamics 365 Customer Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Field Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Finance Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Supply Chain Management Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Solution Architect Expert</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Technical Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Information Protection Administrator Associate</span><span class='tag'>Microsoft Certified: Power BI Data Analyst Associate</span><span class='tag'>Microsoft Certified: Power Platform App Maker Associate</span><span class='tag'>Microsoft Certified: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Power Platform Solution Architect Expert</span><span class='tag'>Microsoft Certified: Security Operations Analyst Associate</span><span class='tag'>Microsoft Certified: Windows Server Hybrid Administrator Associate</span><span class='tag'>multicenter clinical trial</span><span class='tag'>mucocutaneous candidiasis</span><span class='tag'>Marine Corps Combat Service Support Schools (MCCSSS) (often shortened to MCC in context)</span><span class='tag'>mobile country code</span></td>
+<td><span class='tag'>Mobile Country Code</span><span class='tag'>community college (abbr.)</span></td>
+</tr>
+<tr><td><strong>ACC</strong></td><td class='num'>11</td>
+<td><span class='tag'>Atlantic Coast Conference</span><span class='tag'>Accessory</span><span class='tag'>Account</span></td>
+<td>&mdash;</td>
+<td><span class='tag'>American Computer &amp; Communications</span><span class='tag'>Adaptive Cruise Control</span><span class='tag'>American Council on Education</span><span class='tag'>adrenocortical carcinoma</span><span class='tag'>American Choral Directors Association</span><span class='tag'>Atlantic Coast Conference</span></td>
+<td><span class='tag'>ACC = adaptive cruise control</span><span class='tag'>ACC = account/accounting (common shorthand)</span><span class='tag'>ACC = Atlantic Coast Conference</span></td>
 </tr>
 <tr><td><strong>CAF</strong></td><td class='num'>9</td>
 <td><span class='tag'>caf</span><span class='tag'>Confederation of African Football</span><span class='tag'>Canadian Armed Forces</span><span class='tag'>Charities Aid Foundation</span></td>
+<td>&mdash;</td>
 <td><span class='tag'>Canadian Armed Forces</span><span class='tag'>Confederate Air Force</span><span class='tag'>Cost and Freight</span></td>
 <td><span class='tag'>Combat Air Force</span><span class='tag'>Cost and Freight (Incoterms, often written as CFR</span><span class='tag'>CAF is also used in shipping contexts as Currency Adjustment Factor)</span><span class='tag'>Central African Republic (country abbreviation commonly seen as CAR, but CAF is widely used as the FIFA country code)</span></td>
 </tr>
 <tr><td><strong>MPS</strong></td><td class='num'>9</td>
 <td><span class='tag'>Meters Per Second</span><span class='tag'>Members of Parliament</span></td>
+<td>&mdash;</td>
 <td><span class='tag'>metres per second</span><span class='tag'>Member of Parliament (plural: MPs</span><span class='tag'>also written MPS in some contexts)</span><span class='tag'>Master Production Schedule</span></td>
 <td><span class='tag'>m/s (meters per second, often typed as MPS)</span><span class='tag'>MP&#x27;s / MPs (Members of Parliament</span><span class='tag'>often written as MPS in all-caps contexts)</span></td>
 </tr>
 <tr><td><strong>COC</strong></td><td class='num'>9</td>
 <td><span class='tag'>coc</span><span class='tag'>Chain of Command</span><span class='tag'>Clash of Clans</span></td>
+<td>&mdash;</td>
 <td><span class='tag'>Code of Conduct (CoC)</span><span class='tag'>combined oral contraceptive (COC)</span><span class='tag'>Court of Cassation (CoC, in some legal contexts)</span></td>
 <td><span class='tag'>CoC = Clash of Clans</span><span class='tag'>CoC = Code of Conduct</span><span class='tag'>CoC = Certificate of Compliance</span></td>
 </tr>
 <tr><td><strong>RSP</strong></td><td class='num'>8</td>
 <td><span class='tag'>Retirement Savings Plan</span><span class='tag'>Recommended Selling Price</span></td>
+<td>&mdash;</td>
 <td><span class='tag'>Regular Savings Plan</span><span class='tag'>Remote Service Provider</span><span class='tag'>Resource Reservation Protocol</span></td>
 <td><span class='tag'>Raspberry Pi (commonly abbreviated RPi</span><span class='tag'>RSP is also used in some contexts but less common)</span><span class='tag'>Retail Selling Price</span></td>
 </tr>
 <tr><td><strong>CIP</strong></td><td class='num'>8</td>
 <td>&mdash;</td>
+<td>&mdash;</td>
 <td><span class='tag'>Clean-in-place (CIP)</span><span class='tag'>Cast-in-place (CIP)</span><span class='tag'>Critical Infrastructure Protection (CIP)</span><span class='tag'>Cataloging in Publication (CIP)</span></td>
 <td><span class='tag'>CIP = Commercially Important Person (VIP-style service)</span><span class='tag'>CIP = Capital Improvement Plan</span><span class='tag'>CIP = Continuous Improvement Process</span><span class='tag'>CIP = Clean-in-place</span></td>
 </tr>
-<tr><td><strong>ACC</strong></td><td class='num'>8</td>
-<td><span class='tag'>Atlantic Coast Conference</span><span class='tag'>Accessory</span><span class='tag'>Account</span></td>
-<td><span class='tag'>American Computer &amp; Communications</span><span class='tag'>Adaptive Cruise Control</span><span class='tag'>American Council on Education</span><span class='tag'>adrenocortical carcinoma</span><span class='tag'>American Choral Directors Association</span><span class='tag'>Atlantic Coast Conference</span></td>
+<tr><td><strong>POS</strong></td><td class='num'>8</td>
+<td><span class='tag'>Point of Sale</span><span class='tag'>Piece of S**t</span><span class='tag'>Part of Speech</span><span class='tag'>Packet over SONET/SDH</span></td>
 <td>&mdash;</td>
+<td><span class='tag'>pos</span><span class='tag'>point of sale</span><span class='tag'>point of service</span><span class='tag'>positive</span></td>
+<td><span class='tag'>pos</span><span class='tag'>Point of Sale</span><span class='tag'>piece of shit (vulgar abbreviation)</span></td>
 </tr>
-<tr><td><strong>DIA</strong></td><td class='num'>7</td>
-<td><span class='tag'>Defense Intelligence Agency</span></td>
-<td><span class='tag'>diameter</span><span class='tag'>diastolic (blood pressure)</span><span class='tag'>diisopropylamine</span></td>
-<td><span class='tag'>dia- (prefix meaning &#x27;through&#x27; or &#x27;across&#x27;, as in diagnosis/diarrhea</span><span class='tag'>commonly abbreviated in medical contexts)</span><span class='tag'>diastolic arterial pressure (often abbreviated &#x27;DIA&#x27; on blood pressure readouts/forms)</span></td>
+<tr><td><strong>SOC</strong></td><td class='num'>8</td>
+<td><span class='tag'>soc</span><span class='tag'>System on a Chip</span><span class='tag'>Security Operations Center</span></td>
+<td>&mdash;</td>
+<td><span class='tag'>system on a chip</span><span class='tag'>security operations center</span><span class='tag'>soil organic carbon</span><span class='tag'>start of (the) competition</span></td>
+<td><span class='tag'>SoC = system on a chip</span><span class='tag'>SOC = security operations center</span><span class='tag'>SOC = service organization control (SOC reports)</span></td>
 </tr>
-<tr><td><strong>OCC</strong></td><td class='num'>7</td>
-<td><span class='tag'>Office of the Comptroller of the Currency</span><span class='tag'>Options Clearing Corporation</span></td>
-<td><span class='tag'>Occupancy</span><span class='tag'>Operations Control Center</span><span class='tag'>Occipital</span></td>
-<td><span class='tag'>OCC (Options Clearing Corporation)</span><span class='tag'>OCC (Office of the Comptroller of the Currency)</span><span class='tag'>occ. (abbrev. for &#x27;occasion&#x27; or &#x27;occasional&#x27;)</span></td>
-</tr>
-<tr><td><strong>MDA</strong></td><td class='num'>7</td>
-<td><span class='tag'>Muscular Dystrophy Association</span><span class='tag'>Missile Defense Agency</span></td>
-<td><span class='tag'>methylenedioxyamphetamine</span><span class='tag'>muscular dystrophy association</span><span class='tag'>model-driven architecture</span></td>
-<td><span class='tag'>medical doctor assistant (MD/DO assistant) / physician assistant (MDA usage varies)</span><span class='tag'>merger and acquisition (M&amp;A</span><span class='tag'>sometimes written as MDA in plain text)</span></td>
+<tr><td><strong>RES</strong></td><td class='num'>8</td>
+<td><span class='tag'>res</span><span class='tag'>Resolution</span><span class='tag'>Reservation</span><span class='tag'>Reserve</span></td>
+<td>&mdash;</td>
+<td><span class='tag'>res</span><span class='tag'>reservation</span><span class='tag'>resource</span><span class='tag'>resolution</span></td>
+<td><span class='tag'>reservation (res.)</span><span class='tag'>residence (res.)</span><span class='tag'>result(s) (res.)</span><span class='tag'>resources (res.)</span></td>
 </tr>
 </table>
 </body></html>
