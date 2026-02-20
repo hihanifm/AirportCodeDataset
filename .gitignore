@@ -2,4 +2,3 @@
 .venv/
 __pycache__/
 enrichment_checkpoint.json
-airport-code-dataset-enriched.csv
