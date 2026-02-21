@@ -45,8 +45,8 @@
 </div>
 <div class="card" style="background:#10b981">
   <div class="label">Gemini False Positive</div>
-  <div class="big">2,722</div>
-  <div class="detail">27.9% of codes &middot; 3,251 total meanings</div>
+  <div class="big">3,429</div>
+  <div class="detail">35.1% of codes &middot; 4,093 total meanings</div>
   <div class="detail">avg 1.2 &middot; min 1 &middot; max 4 per code</div>
 </div>
 <div class="card" style="background:#f59e0b">
@@ -65,33 +65,33 @@
 <h2>Overall Overlap</h2>
 <div class='overview-grid'>
 <div class="overview-box">
-  <div class="big">5,571</div>
-  <div class="label">In Any Column (57.0%)</div>
+  <div class="big">5,643</div>
+  <div class="label">In Any Column (57.8%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">1,233</div>
-  <div class="label">In All Columns (12.6%)</div>
+  <div class="big">1,556</div>
+  <div class="label">In All Columns (15.9%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">4,195</div>
-  <div class="label">No Meanings (43.0%)</div>
+  <div class="big">4,123</div>
+  <div class="label">No Meanings (42.2%)</div>
 </div>
 </div>
 <h2>Pairwise Overlap</h2>
 <table><tr><th>Column A</th><th>Column B</th><th class='num'>Both</th><th class='num'>Only A</th><th class='num'>Only B</th><th class='num'>Jaccard</th></tr>
-<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>2,406</td><td class='num'>2,141</td><td class='num'>316</td><td class='num'>0.495</td></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>3,010</td><td class='num'>1,537</td><td class='num'>419</td><td class='num'>0.606</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>2,161</td><td class='num'>521</td><td class='num'>0.471</td></tr>
 <tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>2,332</td><td class='num'>634</td><td class='num'>0.428</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>1,631</td><td class='num'>1,091</td><td class='num'>1,276</td><td class='num'>0.408</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,563</td><td class='num'>1,159</td><td class='num'>1,286</td><td class='num'>0.390</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>2,044</td><td class='num'>1,385</td><td class='num'>863</td><td class='num'>0.476</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,952</td><td class='num'>1,477</td><td class='num'>897</td><td class='num'>0.451</td></tr>
 <tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>774</td><td class='num'>716</td><td class='num'>0.589</td></tr>
 </table>
 <h2>Agreement Analysis</h2><p>For codes present in both columns, how often they share at least one normalized meaning token.</p><table><tr><th>Column A</th><th>Column B</th><th class='num'>Shared Codes</th><th class='num'>Agree</th><th class='num'>Rate</th></tr>
-<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>2,406</td><td class='num'>2,025</td><td class='num'>84.2%</td></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>3,010</td><td class='num'>2,553</td><td class='num'>84.8%</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>1,630</td><td class='num'>68.3%</td></tr>
 <tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>1,350</td><td class='num'>60.9%</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>1,631</td><td class='num'>1,113</td><td class='num'>68.2%</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,563</td><td class='num'>975</td><td class='num'>62.4%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>2,044</td><td class='num'>1,398</td><td class='num'>68.4%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,952</td><td class='num'>1,231</td><td class='num'>63.1%</td></tr>
 <tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>1,352</td><td class='num'>63.4%</td></tr>
 </table>
 <h2>Top 10 Codes by Distinct Meanings</h2>
@@ -101,9 +101,9 @@
 <th>Openai</th>
 <th>Openai False Positive</th>
 </tr>
-<tr><td><strong>MCC</strong></td><td class='num'>40</td>
+<tr><td><strong>MCC</strong></td><td class='num'>41</td>
 <td><span class='tag'>Marylebone Cricket Club</span><span class='tag'>Motor Control Center</span></td>
-<td>&mdash;</td>
+<td><span class='tag'>Motorcycle Club</span></td>
 <td><span class='tag'>Microsoft Certified: Cybersecurity Architect Expert</span><span class='tag'>Microsoft Certified: Azure AI Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Data Scientist Associate</span><span class='tag'>Microsoft Certified: Azure Database Administrator Associate</span><span class='tag'>Microsoft Certified: Azure Developer Associate</span><span class='tag'>Microsoft Certified: Azure Enterprise Data Analyst Associate</span><span class='tag'>Microsoft Certified: Azure Fundamentals</span><span class='tag'>Microsoft Certified: Azure Network Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Security Engineer Associate</span><span class='tag'>Microsoft Certified: Azure Solutions Architect Expert</span><span class='tag'>Microsoft Certified: Azure Support Engineer for Connectivity Specialty</span><span class='tag'>Microsoft Certified: Azure Virtual Desktop Specialty</span><span class='tag'>Microsoft Certified: Business Applications Specialist</span><span class='tag'>Microsoft Certified: Data Analyst Associate</span><span class='tag'>Microsoft Certified: Data Engineer Associate</span><span class='tag'>Microsoft Certified: DevOps Engineer Expert</span><span class='tag'>Microsoft Certified: Dynamics 365 Customer Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Field Service Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Finance Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365 Supply Chain Management Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Solution Architect Expert</span><span class='tag'>Microsoft Certified: Dynamics 365: Finance and Operations Apps Technical Consultant Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Dynamics 365: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Information Protection Administrator Associate</span><span class='tag'>Microsoft Certified: Power BI Data Analyst Associate</span><span class='tag'>Microsoft Certified: Power Platform App Maker Associate</span><span class='tag'>Microsoft Certified: Power Platform Developer Associate</span><span class='tag'>Microsoft Certified: Power Platform Functional Consultant Associate</span><span class='tag'>Microsoft Certified: Power Platform Solution Architect Expert</span><span class='tag'>Microsoft Certified: Security Operations Analyst Associate</span><span class='tag'>Microsoft Certified: Windows Server Hybrid Administrator Associate</span><span class='tag'>multicenter clinical trial</span><span class='tag'>mucocutaneous candidiasis</span><span class='tag'>Marine Corps Combat Service Support Schools (MCCSSS) (often shortened to MCC in context)</span><span class='tag'>mobile country code</span></td>
 <td><span class='tag'>Mobile Country Code</span><span class='tag'>community college (abbr.)</span></td>
 </tr>
@@ -131,6 +131,12 @@
 <td><span class='tag'>metres per second</span><span class='tag'>Member of Parliament (plural: MPs</span><span class='tag'>also written MPS in some contexts)</span><span class='tag'>Master Production Schedule</span></td>
 <td><span class='tag'>m/s (meters per second, often typed as MPS)</span><span class='tag'>MP&#x27;s / MPs (Members of Parliament</span><span class='tag'>often written as MPS in all-caps contexts)</span></td>
 </tr>
+<tr><td><strong>RES</strong></td><td class='num'>9</td>
+<td><span class='tag'>res</span><span class='tag'>Resolution</span><span class='tag'>Reservation</span><span class='tag'>Reserve</span></td>
+<td><span class='tag'>reservation</span><span class='tag'>resolution</span><span class='tag'>resurrect</span></td>
+<td><span class='tag'>res</span><span class='tag'>reservation</span><span class='tag'>resource</span><span class='tag'>resolution</span></td>
+<td><span class='tag'>reservation (res.)</span><span class='tag'>residence (res.)</span><span class='tag'>result(s) (res.)</span><span class='tag'>resources (res.)</span></td>
+</tr>
 <tr><td><strong>RSP</strong></td><td class='num'>8</td>
 <td><span class='tag'>Retirement Savings Plan</span><span class='tag'>Recommended Selling Price</span></td>
 <td>&mdash;</td>
@@ -154,12 +160,6 @@
 <td><span class='tag'>cap</span><span class='tag'>lie/exaggeration (e.g., &#x27;no cap&#x27;)</span></td>
 <td><span class='tag'>cap</span><span class='tag'>community-acquired pneumonia</span><span class='tag'>capitalization</span><span class='tag'>Common Agricultural Policy</span></td>
 <td><span class='tag'>cap</span><span class='tag'>Capitalization (cap)</span><span class='tag'>Capital expenditure(s) (capex</span><span class='tag'>&quot;cap&quot; used informally)</span><span class='tag'>cap (lie/falsehood)</span></td>
-</tr>
-<tr><td><strong>POS</strong></td><td class='num'>8</td>
-<td><span class='tag'>Point of Sale</span><span class='tag'>Piece of S**t</span><span class='tag'>Part of Speech</span><span class='tag'>Packet over SONET/SDH</span></td>
-<td><span class='tag'>Point of Sale</span><span class='tag'>Piece of Shit</span></td>
-<td><span class='tag'>pos</span><span class='tag'>point of sale</span><span class='tag'>point of service</span><span class='tag'>positive</span></td>
-<td><span class='tag'>pos</span><span class='tag'>Point of Sale</span><span class='tag'>piece of shit (vulgar abbreviation)</span></td>
 </tr>
 </table>
 </body></html>
