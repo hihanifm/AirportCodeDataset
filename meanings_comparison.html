@@ -45,9 +45,9 @@
 </div>
 <div class="card" style="background:#10b981">
   <div class="label">Gemini False Positive</div>
-  <div class="big">95</div>
-  <div class="detail">1.0% of codes &middot; 114 total meanings</div>
-  <div class="detail">avg 1.2 &middot; min 1 &middot; max 3 per code</div>
+  <div class="big">2,722</div>
+  <div class="detail">27.9% of codes &middot; 3,251 total meanings</div>
+  <div class="detail">avg 1.2 &middot; min 1 &middot; max 4 per code</div>
 </div>
 <div class="card" style="background:#f59e0b">
   <div class="label">Openai</div>
@@ -65,33 +65,33 @@
 <h2>Overall Overlap</h2>
 <div class='overview-grid'>
 <div class="overview-box">
-  <div class="big">5,399</div>
-  <div class="label">In Any Column (55.3%)</div>
+  <div class="big">5,571</div>
+  <div class="label">In Any Column (57.0%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">39</div>
-  <div class="label">In All Columns (0.4%)</div>
+  <div class="big">1,233</div>
+  <div class="label">In All Columns (12.6%)</div>
 </div>
 <div class="overview-box">
-  <div class="big">4,367</div>
-  <div class="label">No Meanings (44.7%)</div>
+  <div class="big">4,195</div>
+  <div class="label">No Meanings (43.0%)</div>
 </div>
 </div>
 <h2>Pairwise Overlap</h2>
 <table><tr><th>Column A</th><th>Column B</th><th class='num'>Both</th><th class='num'>Only A</th><th class='num'>Only B</th><th class='num'>Jaccard</th></tr>
-<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>86</td><td class='num'>4,461</td><td class='num'>9</td><td class='num'>0.019</td></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>2,406</td><td class='num'>2,141</td><td class='num'>316</td><td class='num'>0.495</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>2,161</td><td class='num'>521</td><td class='num'>0.471</td></tr>
 <tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>2,332</td><td class='num'>634</td><td class='num'>0.428</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>63</td><td class='num'>32</td><td class='num'>2,844</td><td class='num'>0.021</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>50</td><td class='num'>45</td><td class='num'>2,799</td><td class='num'>0.017</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>1,631</td><td class='num'>1,091</td><td class='num'>1,276</td><td class='num'>0.408</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,563</td><td class='num'>1,159</td><td class='num'>1,286</td><td class='num'>0.390</td></tr>
 <tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>774</td><td class='num'>716</td><td class='num'>0.589</td></tr>
 </table>
 <h2>Agreement Analysis</h2><p>For codes present in both columns, how often they share at least one normalized meaning token.</p><table><tr><th>Column A</th><th>Column B</th><th class='num'>Shared Codes</th><th class='num'>Agree</th><th class='num'>Rate</th></tr>
-<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>86</td><td class='num'>77</td><td class='num'>89.5%</td></tr>
+<tr><td>Gemini</td><td>Gemini False Positive</td><td class='num'>2,406</td><td class='num'>2,025</td><td class='num'>84.2%</td></tr>
 <tr><td>Gemini</td><td>Openai</td><td class='num'>2,386</td><td class='num'>1,630</td><td class='num'>68.3%</td></tr>
 <tr><td>Gemini</td><td>Openai False Positive</td><td class='num'>2,215</td><td class='num'>1,350</td><td class='num'>60.9%</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>63</td><td class='num'>46</td><td class='num'>73.0%</td></tr>
-<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>50</td><td class='num'>37</td><td class='num'>74.0%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai</td><td class='num'>1,631</td><td class='num'>1,113</td><td class='num'>68.2%</td></tr>
+<tr><td>Gemini False Positive</td><td>Openai False Positive</td><td class='num'>1,563</td><td class='num'>975</td><td class='num'>62.4%</td></tr>
 <tr><td>Openai</td><td>Openai False Positive</td><td class='num'>2,133</td><td class='num'>1,352</td><td class='num'>63.4%</td></tr>
 </table>
 <h2>Top 10 Codes by Distinct Meanings</h2>
@@ -109,27 +109,27 @@
 </tr>
 <tr><td><strong>ACC</strong></td><td class='num'>11</td>
 <td><span class='tag'>Atlantic Coast Conference</span><span class='tag'>Accessory</span><span class='tag'>Account</span></td>
-<td>&mdash;</td>
+<td><span class='tag'>Account</span><span class='tag'>Atlantic Coast Conference</span></td>
 <td><span class='tag'>American Computer &amp; Communications</span><span class='tag'>Adaptive Cruise Control</span><span class='tag'>American Council on Education</span><span class='tag'>adrenocortical carcinoma</span><span class='tag'>American Choral Directors Association</span><span class='tag'>Atlantic Coast Conference</span></td>
 <td><span class='tag'>ACC = adaptive cruise control</span><span class='tag'>ACC = account/accounting (common shorthand)</span><span class='tag'>ACC = Atlantic Coast Conference</span></td>
 </tr>
-<tr><td><strong>CAF</strong></td><td class='num'>9</td>
+<tr><td><strong>CAF</strong></td><td class='num'>10</td>
 <td><span class='tag'>caf</span><span class='tag'>Confederation of African Football</span><span class='tag'>Canadian Armed Forces</span><span class='tag'>Charities Aid Foundation</span></td>
-<td>&mdash;</td>
+<td><span class='tag'>Cafeteria</span></td>
 <td><span class='tag'>Canadian Armed Forces</span><span class='tag'>Confederate Air Force</span><span class='tag'>Cost and Freight</span></td>
 <td><span class='tag'>Combat Air Force</span><span class='tag'>Cost and Freight (Incoterms, often written as CFR</span><span class='tag'>CAF is also used in shipping contexts as Currency Adjustment Factor)</span><span class='tag'>Central African Republic (country abbreviation commonly seen as CAR, but CAF is widely used as the FIFA country code)</span></td>
 </tr>
-<tr><td><strong>MPS</strong></td><td class='num'>9</td>
-<td><span class='tag'>Meters Per Second</span><span class='tag'>Members of Parliament</span></td>
-<td>&mdash;</td>
-<td><span class='tag'>metres per second</span><span class='tag'>Member of Parliament (plural: MPs</span><span class='tag'>also written MPS in some contexts)</span><span class='tag'>Master Production Schedule</span></td>
-<td><span class='tag'>m/s (meters per second, often typed as MPS)</span><span class='tag'>MP&#x27;s / MPs (Members of Parliament</span><span class='tag'>often written as MPS in all-caps contexts)</span></td>
-</tr>
-<tr><td><strong>COC</strong></td><td class='num'>9</td>
+<tr><td><strong>COC</strong></td><td class='num'>10</td>
 <td><span class='tag'>coc</span><span class='tag'>Chain of Command</span><span class='tag'>Clash of Clans</span></td>
-<td>&mdash;</td>
+<td><span class='tag'>coc</span><span class='tag'>Clash of Clans</span><span class='tag'>Chain of Command</span><span class='tag'>Chamber of Commerce</span></td>
 <td><span class='tag'>Code of Conduct (CoC)</span><span class='tag'>combined oral contraceptive (COC)</span><span class='tag'>Court of Cassation (CoC, in some legal contexts)</span></td>
 <td><span class='tag'>CoC = Clash of Clans</span><span class='tag'>CoC = Code of Conduct</span><span class='tag'>CoC = Certificate of Compliance</span></td>
+</tr>
+<tr><td><strong>MPS</strong></td><td class='num'>9</td>
+<td><span class='tag'>Meters Per Second</span><span class='tag'>Members of Parliament</span></td>
+<td><span class='tag'>Meters Per Second</span><span class='tag'>Member of Parliament</span></td>
+<td><span class='tag'>metres per second</span><span class='tag'>Member of Parliament (plural: MPs</span><span class='tag'>also written MPS in some contexts)</span><span class='tag'>Master Production Schedule</span></td>
+<td><span class='tag'>m/s (meters per second, often typed as MPS)</span><span class='tag'>MP&#x27;s / MPs (Members of Parliament</span><span class='tag'>often written as MPS in all-caps contexts)</span></td>
 </tr>
 <tr><td><strong>RSP</strong></td><td class='num'>8</td>
 <td><span class='tag'>Retirement Savings Plan</span><span class='tag'>Recommended Selling Price</span></td>
@@ -143,23 +143,23 @@
 <td><span class='tag'>Clean-in-place (CIP)</span><span class='tag'>Cast-in-place (CIP)</span><span class='tag'>Critical Infrastructure Protection (CIP)</span><span class='tag'>Cataloging in Publication (CIP)</span></td>
 <td><span class='tag'>CIP = Commercially Important Person (VIP-style service)</span><span class='tag'>CIP = Capital Improvement Plan</span><span class='tag'>CIP = Continuous Improvement Process</span><span class='tag'>CIP = Clean-in-place</span></td>
 </tr>
+<tr><td><strong>CSA</strong></td><td class='num'>8</td>
+<td><span class='tag'>Community Supported Agriculture</span><span class='tag'>Confederate States of America</span><span class='tag'>Canadian Space Agency</span></td>
+<td><span class='tag'>Community-Supported Agriculture</span><span class='tag'>Confederate States of America</span></td>
+<td><span class='tag'>Controlled Substances Act</span><span class='tag'>Canadian Standards Association</span></td>
+<td><span class='tag'>customer service agent (CSA)</span><span class='tag'>child support agency (CSA)</span><span class='tag'>Canadian Standards Association (CSA)</span></td>
+</tr>
+<tr><td><strong>CAP</strong></td><td class='num'>8</td>
+<td><span class='tag'>cap</span><span class='tag'>CAP theorem (Consistency, Availability, Partition tolerance)</span></td>
+<td><span class='tag'>cap</span><span class='tag'>lie/exaggeration (e.g., &#x27;no cap&#x27;)</span></td>
+<td><span class='tag'>cap</span><span class='tag'>community-acquired pneumonia</span><span class='tag'>capitalization</span><span class='tag'>Common Agricultural Policy</span></td>
+<td><span class='tag'>cap</span><span class='tag'>Capitalization (cap)</span><span class='tag'>Capital expenditure(s) (capex</span><span class='tag'>&quot;cap&quot; used informally)</span><span class='tag'>cap (lie/falsehood)</span></td>
+</tr>
 <tr><td><strong>POS</strong></td><td class='num'>8</td>
 <td><span class='tag'>Point of Sale</span><span class='tag'>Piece of S**t</span><span class='tag'>Part of Speech</span><span class='tag'>Packet over SONET/SDH</span></td>
-<td>&mdash;</td>
+<td><span class='tag'>Point of Sale</span><span class='tag'>Piece of Shit</span></td>
 <td><span class='tag'>pos</span><span class='tag'>point of sale</span><span class='tag'>point of service</span><span class='tag'>positive</span></td>
 <td><span class='tag'>pos</span><span class='tag'>Point of Sale</span><span class='tag'>piece of shit (vulgar abbreviation)</span></td>
-</tr>
-<tr><td><strong>SOC</strong></td><td class='num'>8</td>
-<td><span class='tag'>soc</span><span class='tag'>System on a Chip</span><span class='tag'>Security Operations Center</span></td>
-<td>&mdash;</td>
-<td><span class='tag'>system on a chip</span><span class='tag'>security operations center</span><span class='tag'>soil organic carbon</span><span class='tag'>start of (the) competition</span></td>
-<td><span class='tag'>SoC = system on a chip</span><span class='tag'>SOC = security operations center</span><span class='tag'>SOC = service organization control (SOC reports)</span></td>
-</tr>
-<tr><td><strong>RES</strong></td><td class='num'>8</td>
-<td><span class='tag'>res</span><span class='tag'>Resolution</span><span class='tag'>Reservation</span><span class='tag'>Reserve</span></td>
-<td>&mdash;</td>
-<td><span class='tag'>res</span><span class='tag'>reservation</span><span class='tag'>resource</span><span class='tag'>resolution</span></td>
-<td><span class='tag'>reservation (res.)</span><span class='tag'>residence (res.)</span><span class='tag'>result(s) (res.)</span><span class='tag'>resources (res.)</span></td>
 </tr>
 </table>
 </body></html>
